@@ -27,7 +27,4 @@ public class UserController {
 		return "user/list";
 	}
 
-//	@GetMapping("void")
-//	public void hello() {}
-
 }
