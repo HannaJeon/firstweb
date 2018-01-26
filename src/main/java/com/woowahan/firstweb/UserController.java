@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -20,11 +23,18 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/list")
+	public String showAll(Model model) {
+		List<User> users = (List<User>) userRepository.findAll();
+		model.addAttribute("user", users);
+		return "user/list";
+	}
+
 	@GetMapping("/{id}")
 	public String show(@PathVariable long id, Model model) {
 		User user = userRepository.findOne(id);
 		model.addAttribute(user);
-		return "user/list";
+		return "user/profile";
 	}
 
 }
