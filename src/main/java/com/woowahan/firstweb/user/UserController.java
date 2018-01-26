@@ -43,4 +43,11 @@ public class UserController {
 		return "user/update_form";
 	}
 
+	@PostMapping("/{id}/update")
+	public String update(@PathVariable long id, User user) {
+		user.setId(id);
+		userRepository.save(user);
+		return "redirect:/users";
+	}
+
 }
