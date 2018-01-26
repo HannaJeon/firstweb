@@ -1,4 +1,4 @@
-package com.woowahan.firstweb;
+package com.woowahan.firstweb.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,7 +22,7 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/list")
+	@GetMapping("")
 	public String showAll(Model model) {
 		List<User> users = (List<User>) userRepository.findAll();
 		model.addAttribute("user", users);

@@ -1,4 +1,4 @@
-package com.woowahan.firstweb;
+package com.woowahan.firstweb.user;
 
 import org.springframework.data.repository.CrudRepository;
 
