@@ -13,4 +13,10 @@ public class QuestionController {
 	public String create() {
 		return "question/form";
 	}
+
+	@PostMapping("")
+	public String create(String writer, String title, String contents) {
+		System.out.println(writer + title + contents);
+		return "redirect:/";
+	}
 }
