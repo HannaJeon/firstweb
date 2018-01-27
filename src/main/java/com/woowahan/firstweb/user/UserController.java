@@ -17,6 +17,11 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@GetMapping("/login")
+	public String login() {
+		return "user/login";
+	}
+
 	@PostMapping("")
 	public String create(User user) {
 		userRepository.save(user);
@@ -54,9 +59,11 @@ public class UserController {
 	@PostMapping("/login")
 	public String login(String userId, String password, HttpSession session) {
 		User user = userRepository.findByUserId(userId);
-		if (user != null && user.getPassword().equals(password))
-			return "redirect:/users";
-		return "redirect:/";
+		if (user != null && user.getPassword().equals(password)) {
+			session.setAttribute("user", user);
+			return "redirect:/";
+		}
+		return "redirect:/users/login";
 	}
 
 }
