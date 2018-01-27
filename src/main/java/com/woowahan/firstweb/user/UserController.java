@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -48,6 +49,14 @@ public class UserController {
 		user.setId(id);
 		userRepository.save(user);
 		return "redirect:/users";
+	}
+
+	@PostMapping("/login")
+	public String login(String userId, String password, HttpSession session) {
+		User user = userRepository.findByUserId(userId);
+		if (user != null && user.getPassword().equals(password))
+			return "redirect:/users";
+		return "redirect:/";
 	}
 
 }
