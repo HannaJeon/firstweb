@@ -67,7 +67,13 @@ public class UserController {
 			logger.debug("Login Success userID: {}", user.getUserId());
 			return "redirect:/";
 		}
-		return "redirect:/users/login";
+		return "user/login_failed";
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("sessionedUser");
+		return "redirect:/";
 	}
 
 }
