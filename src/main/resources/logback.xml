@@ -9,6 +9,7 @@
 
     <!-- 자바 패키지별 log level을 설정한다. -->
     <logger name="com.woowahan.firstweb.user" level="DEBUG" />
+    <logger name="com.woowahan.firstweb.question" level="DEBUG" />
 
     <logger name="next" level="DEBUG" />
 
