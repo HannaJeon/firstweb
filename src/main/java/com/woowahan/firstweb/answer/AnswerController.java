@@ -5,6 +5,7 @@ import com.woowahan.firstweb.question.QuestionRepository;
 import com.woowahan.firstweb.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,16 @@ public class AnswerController {
 		answer.setQuestion(question);
 		answerRepository.save(answer);
 		return "redirect:/";
+	}
+
+	@DeleteMapping("/questions/{questionId}/answers/{id}")
+	public String delete(@PathVariable long questionId, @PathVariable long id, HttpSession session) {
+		Answer answer = answerRepository.findOne(id);
+		User user = (User)session.getAttribute("sessionedUser");
+
+		if (answer.equals(user))
+			answerRepository.delete(id);
+
+		return "redirect:/questions/{questionId}";
 	}
 }

@@ -70,4 +70,9 @@ public class Answer {
 				", contents='" + contents + '\'' +
 				'}';
 	}
+
+	@Override
+	public boolean equals(Object user) {
+		return ((User) user).getId() == writer.getId();
+	}
 }
