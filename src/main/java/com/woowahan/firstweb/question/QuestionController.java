@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -50,7 +47,7 @@ public class QuestionController {
 		return "question/show";
 	}
 
-	@GetMapping("/{id}/form")
+	@GetMapping("/{id}/update")
 	public String editForm(@PathVariable long id, Model model, HttpSession session) {
 		User sessionedUser = (User)session.getAttribute("sessionedUser");
 		Question question = questionRepository.findOne(id);
@@ -60,11 +57,18 @@ public class QuestionController {
 		}
 
 		if (!sessionedUser.getName().equals(question.getWriter())) {
-			throw new IllegalStateException("Can not edit another user's post");
+			throw new IllegalStateException("Can not update another user's post");
 		}
 
 		model.addAttribute(question);
 		return "question/update_form";
+	}
+
+	@PutMapping("/{id}/update")
+	public String edit(@PathVariable Long id, Question question) {
+		question.setId(id);
+		questionRepository.save(question);
+		return "redirect:/";
 	}
 
 }

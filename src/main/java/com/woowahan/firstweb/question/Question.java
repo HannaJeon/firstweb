@@ -27,6 +27,10 @@ public class Question {
 		this.contents = contents;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
