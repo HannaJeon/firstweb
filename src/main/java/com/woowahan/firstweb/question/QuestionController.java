@@ -50,4 +50,21 @@ public class QuestionController {
 		return "question/show";
 	}
 
+	@GetMapping("/{id}/form")
+	public String editForm(@PathVariable long id, Model model, HttpSession session) {
+		User sessionedUser = (User)session.getAttribute("sessionedUser");
+		Question question = questionRepository.findOne(id);
+
+		if (sessionedUser == null) {
+			return "user/login";
+		}
+
+		if (!sessionedUser.getName().equals(question.getWriter())) {
+			throw new IllegalStateException("Can not edit another user's post");
+		}
+
+		model.addAttribute(question);
+		return "question/update_form";
+	}
+
 }
