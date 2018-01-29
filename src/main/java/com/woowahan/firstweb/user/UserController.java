@@ -41,7 +41,11 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/form")
-	public String updateForm(@PathVariable long id, Model model) {
+	public String updateForm(@PathVariable long id, Model model, HttpSession session) {
+		User sessionedUser = (User)session.getAttribute("sessionedUser");
+		if (sessionedUser == null )
+			return "redirect:/users/login";
+
 		User user = userRepository.findOne(id);
 		model.addAttribute(user);
 		return "user/update_form";
@@ -49,6 +53,9 @@ public class UserController {
 
 	@PostMapping("/{id}/update")
 	public String update(@PathVariable long id, User user) {
+		User beforeUser = userRepository.findByUserId(user.getUserId());
+		if (!beforeUser.getPassword().equals(user.getPassword()))
+			return "redirect:/users/login";
 		user.setId(id);
 		userRepository.save(user);
 		return "redirect:/users";
