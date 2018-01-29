@@ -57,7 +57,7 @@ public class UserController {
 	@PostMapping("/{id}/update")
 	public String update(@PathVariable Long id, User user, HttpSession session) {
 		User sessionedUser = (User)session.getAttribute("sessionedUser");
-		User beforeUser = userRepository.findByUserId(user.getUserId());
+		User beforeUser = userRepository.findOne(id);
 
 		if (!id.equals(sessionedUser.getId()))
 			throw new IllegalStateException("can not update another user");

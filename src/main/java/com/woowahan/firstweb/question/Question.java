@@ -1,8 +1,8 @@
 package com.woowahan.firstweb.question;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.woowahan.firstweb.user.User;
+
+import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,14 +14,16 @@ public class Question {
 	@GeneratedValue
 	private long id;
 
-	private String writer;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+	private User writer;
 	private String title;
 	private String contents;
 
 	public Question() {
 	}
 
-	public Question(String writer, String title, String contents) {
+	public Question(User writer, String title, String contents) {
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
@@ -31,7 +33,7 @@ public class Question {
 		this.id = id;
 	}
 
-	public void setWriter(String writer) {
+	public void setWriter(User writer) {
 		this.writer = writer;
 	}
 
@@ -47,7 +49,7 @@ public class Question {
 		return id;
 	}
 
-	public String getWriter() {
+	public User getWriter() {
 		return writer;
 	}
 
@@ -57,6 +59,12 @@ public class Question {
 
 	public String getContents() {
 		return contents;
+	}
+
+	public void update(Question newQuestion, User sessionedUser) {
+		this.writer = sessionedUser;
+		this.title = newQuestion.title;
+		this.contents = newQuestion.contents;
 	}
 
 	@Override

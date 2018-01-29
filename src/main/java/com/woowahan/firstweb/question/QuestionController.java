@@ -56,7 +56,7 @@ public class QuestionController {
 			return "user/login";
 		}
 
-		if (!sessionedUser.getName().equals(question.getWriter())) {
+		if (!sessionedUser.getName().equals(question.getWriter().getName())) {
 			throw new IllegalStateException("Can not update another user's post");
 		}
 
@@ -65,9 +65,12 @@ public class QuestionController {
 	}
 
 	@PutMapping("/{id}/update")
-	public String edit(@PathVariable Long id, Question question) {
-		question.setId(id);
-		questionRepository.save(question);
+	public String edit(@PathVariable Long id, Question question, HttpSession session) {
+		User sessionedUser = (User)session.getAttribute("sessionedUser");
+		Question dbQuestion = questionRepository.findOne(id);
+
+		dbQuestion.update(question, sessionedUser);
+		questionRepository.save(dbQuestion);
 		return "redirect:/";
 	}
 
