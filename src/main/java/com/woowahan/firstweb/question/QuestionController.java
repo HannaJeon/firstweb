@@ -1,5 +1,7 @@
 package com.woowahan.firstweb.question;
 
+import com.woowahan.firstweb.answer.Answer;
+import com.woowahan.firstweb.answer.AnswerRepository;
 import com.woowahan.firstweb.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ public class QuestionController {
 	private static final Logger log = LoggerFactory.getLogger(QuestionController.class);
 	@Autowired
 	private QuestionRepository questionRepository;
+	private AnswerRepository answerRepository;
 
 	@GetMapping("/form")
 	public String form(HttpSession session) {

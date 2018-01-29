@@ -1,11 +1,10 @@
 package com.woowahan.firstweb.question;
 
+import com.woowahan.firstweb.answer.Answer;
 import com.woowahan.firstweb.user.User;
 
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Collection;
 
 @Entity
 public class Question {
@@ -19,6 +18,9 @@ public class Question {
 	private User writer;
 	private String title;
 	private String contents;
+
+	@OneToMany(mappedBy="question")
+	private Collection<Answer> answers;
 
 	public Question() {
 	}
@@ -59,6 +61,18 @@ public class Question {
 
 	public String getContents() {
 		return contents;
+	}
+
+	public int getSize() {
+		return answers.size();
+	}
+
+	public Collection<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(Collection<Answer> answers) {
+		this.answers = answers;
 	}
 
 	public void update(Question newQuestion, User sessionedUser) {
