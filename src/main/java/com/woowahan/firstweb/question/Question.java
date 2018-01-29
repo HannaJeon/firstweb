@@ -68,6 +68,11 @@ public class Question {
 	}
 
 	@Override
+	public boolean equals(Object user) {
+		return ((User)user).getId() == this.writer.getId();
+	}
+
+	@Override
 	public String toString() {
 		return "Question{" +
 				"id=" + id +

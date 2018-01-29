@@ -35,7 +35,9 @@ public class QuestionController {
 	}
 
 	@PostMapping("/form")
-	public String create(Question question) {
+	public String create(Question question, HttpSession session) {
+		User sessionedUser = (User)session.getAttribute("sessionedUser");
+		question.setWriter(sessionedUser);
 		questionRepository.save(question);
 		return "redirect:/";
 	}
@@ -56,7 +58,7 @@ public class QuestionController {
 			return "user/login";
 		}
 
-		if (!sessionedUser.getName().equals(question.getWriter().getName())) {
+		if (!question.equals(sessionedUser)) {
 			throw new IllegalStateException("Can not update another user's post");
 		}
 
@@ -79,13 +81,11 @@ public class QuestionController {
 		User sessionedUser = (User)session.getAttribute("sessionedUser");
 		Question question = questionRepository.findOne(id);
 
-		if (sessionedUser == null || !sessionedUser.getName().equals(question.getWriter())) {
+		if (sessionedUser == null || !question.equals(sessionedUser)) {
 			return "redirect:/users/login";
 		}
 
-		if (question.getWriter().equals(sessionedUser.getName())) {
-			questionRepository.delete(id);
-		}
+		questionRepository.delete(id);
 		return "redirect:/";
 	}
 
