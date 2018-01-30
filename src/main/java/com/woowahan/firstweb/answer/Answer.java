@@ -4,6 +4,8 @@ import com.woowahan.firstweb.question.Question;
 import com.woowahan.firstweb.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Answer {
@@ -19,6 +21,7 @@ public class Answer {
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_to_user"))
 	private User writer;
 	private String contents;
+	private LocalDateTime createDate;
 
 	public Answer() {
 	}
@@ -27,6 +30,7 @@ public class Answer {
 		this.question = question;
 		this.writer = writer;
 		this.contents = contents;
+		this.createDate = LocalDateTime.now();
 	}
 
 	public long getId() {
@@ -74,5 +78,11 @@ public class Answer {
 	@Override
 	public boolean equals(Object user) {
 		return ((User) user).getId() == writer.getId();
+	}
+
+	public String getConvertTime (){
+		if (createDate == null)
+			return "";
+		return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
 	}
 }
