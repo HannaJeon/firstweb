@@ -1,5 +1,6 @@
 package com.woowahan.firstweb.question;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.woowahan.firstweb.answer.Answer;
 import com.woowahan.firstweb.user.User;
 import org.hibernate.annotations.Where;
@@ -26,6 +27,8 @@ public class Question {
 	private String contents;
 
 	@OneToMany(mappedBy="question")
+	@JsonIgnore
+	@Where(clause = "deleted = false")
 	private Collection<Answer> answers;
 
 	private LocalDateTime createDate;

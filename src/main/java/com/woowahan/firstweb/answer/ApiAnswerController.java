@@ -23,6 +23,7 @@ public class ApiAnswerController {
 
 	@PostMapping("")
 	public Answer create(@PathVariable long questionId, String contents, HttpSession session) {
+		log.debug("asdlkfjl;asfjldsak;jfl;sa");
 		User user = (User)session.getAttribute("sessionedUser");
 		Question question = questionRepository.findOne(questionId);
 
@@ -34,21 +35,25 @@ public class ApiAnswerController {
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable long questionId, @PathVariable long id, HttpSession session) {
+	public Answer delete(@PathVariable long questionId, @PathVariable long id, HttpSession session) {
 		Answer answer = answerRepository.findOne(id);
 		User user = (User)session.getAttribute("sessionedUser");
 
-		if (answer.equals(user))
-			answerRepository.delete(id);
+		if (user == null)
+			return null;
 
-		return "redirect:/questions/{questionId}";
-	}
+		if (!answer.equals(user))
+			return null;
 
-	@GetMapping("")
-	public Answer test(@PathVariable long questionId, HttpSession session) {
-		User user = (User)session.getAttribute("sessionedUser");
-		Question question = questionRepository.findOne(questionId);
-		Answer answer = new Answer(question, user, "test");
+		answer.setDeleted(true);
 		return answerRepository.save(answer);
 	}
+
+//	@GetMapping("")
+//	public Answer test(@PathVariable long questionId, HttpSession session) {
+//		User user = (User)session.getAttribute("sessionedUser");
+//		Question question = questionRepository.findOne(questionId);
+//		Answer answer = new Answer(question, user, "test");
+//		return answerRepository.save(answer);
+//	}
 }
