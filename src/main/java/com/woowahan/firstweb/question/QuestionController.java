@@ -52,8 +52,8 @@ public class QuestionController {
 		return "question/show";
 	}
 
-	@GetMapping("/{id}/update")
-	public String editForm(@PathVariable long id, Model model, HttpSession session) {
+	@GetMapping("/{id}/form")
+	public String updateForm(@PathVariable long id, Model model, HttpSession session) {
 		User sessionedUser = (User)session.getAttribute("sessionedUser");
 		Question question = questionRepository.findOne(id);
 
@@ -69,7 +69,7 @@ public class QuestionController {
 		return "question/update_form";
 	}
 
-	@PutMapping("/{id}/update")
+	@PutMapping("/{id}")
 	public String edit(@PathVariable Long id, Question question, HttpSession session) {
 		User sessionedUser = (User)session.getAttribute("sessionedUser");
 		Question dbQuestion = questionRepository.findOne(id);
@@ -79,7 +79,7 @@ public class QuestionController {
 		return "redirect:/";
 	}
 
-	@DeleteMapping("/{id}/delete")
+	@DeleteMapping("/{id}")
 	public String delete(@PathVariable Long id, HttpSession session) {
 		User sessionedUser = (User)session.getAttribute("sessionedUser");
 		Question question = questionRepository.findOne(id);
