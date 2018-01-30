@@ -88,7 +88,8 @@ public class QuestionController {
 			return "redirect:/users/login";
 		}
 
-		questionRepository.delete(id);
+		question.setDeleted(true);
+		questionRepository.save(question);
 		return "redirect:/";
 	}
 

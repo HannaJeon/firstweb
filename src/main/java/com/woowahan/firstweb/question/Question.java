@@ -2,12 +2,16 @@ package com.woowahan.firstweb.question;
 
 import com.woowahan.firstweb.answer.Answer;
 import com.woowahan.firstweb.user.User;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+@Where(clause = "deleted = false")
 @Entity
 public class Question {
 
@@ -26,6 +30,8 @@ public class Question {
 
 	private LocalDateTime createDate;
 
+	private boolean deleted;
+
 	public Question() {
 	}
 
@@ -34,6 +40,7 @@ public class Question {
 		this.title = title;
 		this.contents = contents;
 		this.createDate =  LocalDateTime.now();
+		this.deleted = false;
 	}
 
 	public void setId(long id) {
@@ -66,6 +73,14 @@ public class Question {
 
 	public String getContents() {
 		return contents;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public int getSize() {
@@ -106,4 +121,5 @@ public class Question {
 			return "";
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
 	}
+
 }
