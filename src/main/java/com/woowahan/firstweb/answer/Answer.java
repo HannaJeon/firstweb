@@ -1,7 +1,9 @@
 package com.woowahan.firstweb.answer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.woowahan.firstweb.question.Question;
 import com.woowahan.firstweb.user.User;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,10 +13,12 @@ import java.time.format.DateTimeFormatter;
 public class Answer {
 	@Id
 	@GeneratedValue
+	@OrderBy("id DESC")
 	private long id;
 
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_to_question"))
+	@JsonIgnore
 	private Question question;
 
 	@ManyToOne

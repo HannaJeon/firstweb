@@ -1,5 +1,7 @@
 package com.woowahan.firstweb.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +17,10 @@ public class User {
 	private long id;
 
 	@Column(nullable = false, length = 10, unique = true)
+	@JsonProperty
 	private String userId;
 
+	@JsonIgnore
 	@Column(length = 8)
 	private String password;
 	private String name;
