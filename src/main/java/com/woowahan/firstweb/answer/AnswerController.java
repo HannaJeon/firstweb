@@ -21,15 +21,14 @@ public class AnswerController {
 	private QuestionRepository questionRepository;
 
 	@PostMapping("/questions/{questionId}/answers")
-	public String create(@PathVariable long questionId, Answer answer, HttpSession session) {
+	public String create(@PathVariable long questionId, String contents, HttpSession session) {
 		User user = (User)session.getAttribute("sessionedUser");
 		Question question = questionRepository.findOne(questionId);
 
 		if (user == null)
 			return "redirect:/users/login";
 
-		answer.setWriter(user);
-		answer.setQuestion(question);
+		Answer answer = new Answer(question, user, contents);
 		answerRepository.save(answer);
 		return "redirect:/";
 	}

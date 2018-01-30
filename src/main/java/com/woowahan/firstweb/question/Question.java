@@ -4,6 +4,8 @@ import com.woowahan.firstweb.answer.Answer;
 import com.woowahan.firstweb.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 @Entity
@@ -22,6 +24,8 @@ public class Question {
 	@OneToMany(mappedBy="question")
 	private Collection<Answer> answers;
 
+	private LocalDateTime createDate;
+
 	public Question() {
 	}
 
@@ -29,6 +33,7 @@ public class Question {
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
+		this.createDate =  LocalDateTime.now();
 	}
 
 	public void setId(long id) {
@@ -94,5 +99,11 @@ public class Question {
 				", title='" + title + '\'' +
 				", contents='" + contents + '\'' +
 				'}';
+	}
+
+	public String getConvertTime (){
+		if (createDate == null)
+			return "";
+		return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
 	}
 }
